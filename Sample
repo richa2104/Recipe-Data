@@ -1,0 +1,83 @@
+Plain Web App:
+Use HTML, CSS and JavaScript to develop the sample Apps. Use JSON file to store and retrieve data.
+
+1. Survey Form :
+Create a web page / web App to take a survey with your team for a team outing you need to arrange.
+Screen 1 will be signup / login screen
+signup
+User name, password, password confirmation employee ID, Email ID, Phone number. Submit button → Store
+the details in JSON file
+Log in: Validate from the JSON data available.
+In Signup screen, use validation for password match, Email ID, Phone number, etc. and display alert popup to
+notify any mismatch.
+Screen 2 will include the below:
+Picnic spot preference. List 5 chosen spots and give an interface for members to select one of them.
+Include gallery for each spot
+Include resort web site links
+1 day / 2 days
+Date preference: Provide 3 preferences and let member select the best suited date.
+Reason for selection: Give a placeholder to give reasons for the selection.
+Food choice: Veg / Non Veg / Both Ok
+Alcohol beverages: Yes / No
+Beverage preference: Beer / Breezer / Hot
+Submit button
+Screen 3 will present the report of data collected so far.
+List of spots and number of votes
+1 day / 2 day preference count
+Dates & votes
+Count of vegetarians / non-vegetarians
+Count of Boozers and others
+Provide a button to go back and change preferences if user wants to.
+
+2. Day Planner
+Create a Day Planner App that can be used by an employee to list the day's tasks and track them
+App has 3 tabs
+Today's tasks
+Long term tasks
+Delayed tasks
+In each tab, user can do the following
+Enter description of the task
+Mark priority of task normal / important
+Due date (Provide a calendar widget to select date. By default, keep it today)
+Remarks
+Mark it completed
+Delayed tasks tab
+This is generated automatically based on Due date assigned.
+
+ReactJS App:
+Use ReactJS to develop the Apps. Use JSON file to store and retrieve data.
+
+An Application (that can be used in Phone, Auto, etc.) to manage Bluetooth headphones connected to device.
+
+Screen 1: Bluetooth Headphone Setup
+a. Add New Headphones - A button to search for new Headphones
+A list view to show paired and connected Headphones. Each list item will have below options
+b. Headphone icon –
+To differentiate between Paired and connected Headphone status
+On Click headphone volume can be modified using Headphone volume view.
+c. Headphone name and friendly name –
+On click headphone should be connected/disconnected.
+d. Edit button –
+To assign/modify a friendly name
+e. Delete button –
+To delete Headphone from the list.
+Confirmation pop-up should be displayed for deleting Headphone.
+Deleted Headphone should be available for pairing in Add New Headphones screen.
+Device name should be considered as friendly name if no friendly name given. Maximum number of characters allowed is 30.
+Maximum number of paired headphones can be 10. Validation pop –up should be shown on pairing 11th Headphone from
+Add New Headphones screen.
+Maximum number of connected headphones can be 2. Validation pop –up should be shown on connecting 3rd Headphone.
+
+Screen 2: Add New Headphones
+A list view to display Headphones that are available for pairing.
+Selected Headphone should be paired and connected. Should go to Bluetooth Headphone Setup view and selected
+Headphone should be added to the list.
+
+Screen 3: Assign friendly Name
+A input type text component to assign/modify a friendly name
+Initial value for the text input component should be Headphone name.
+Back button – Should go to Bluetooth Headphone Setup view
+
+Screen 4: Headphone Volume
+A slider to change headphone volume and changed value should be reflected on re-launch as well.
+Back button to go back to Bluetooth Headphone Setup view
