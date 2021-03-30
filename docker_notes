@@ -1,0 +1,264 @@
+=================================================================================
+								DOCKER
+=================================================================================
+Docker is a container management service. The keywords of Docker are develop, ship and run anywhere. The whole idea of Docker is for developers to easily develop applications, ship them into containers which can then be deployed anywhere.
+
+Features of Docker
+Docker has the ability to reduce the size of development by providing a smaller footprint of the operating system via containers.
+With containers, it becomes easier for teams across different units, such as development, QA and Operations to work seamlessly across applications.
+You can deploy Docker containers anywhere, on any physical and virtual machines and even on the cloud.
+Since Docker containers are pretty lightweight, they are very easily scalable.
+
+Docker is only designed to run on Linux kernel version 3.8 and higher.
+=================================================================================
+Docker Hub is a registry service on the cloud that allows you to download Docker images that are built by other communities.
+to download Jenkins image on local ubuntu server : sudo docker pull jenkins 
+to run Jenkins : sudo docker run -p 8080:8080 -p 50000:50000 jenkins 
+
+-p is used to map the port number of the internal docker
+=================================================================================
+								Images
+=================================================================================
+In Docker, everything is based on Images. An image is a combination of a file system and parameters.
+
+docker run hello-world 
+The Docker command is specific and tells the Docker program on the Operating System that something needs to be done.
+The run command is used to mention that we want to create an instance of an image, which is then called a container.
+
+instance of an image, which is then called a container.
+
+Finally, "hello-world" represents the image from which the container is made.
+
+
+sudo docker run -it centos /bin/bash
+Note the following points about the above sudo command −
+
+We are using the sudo command to ensure that it runs with root access.
+Here, centos is the name of the image we want to download from Docker Hub and install on our Ubuntu machine.
+─it is used to mention that we want to run in interactive mode.
+/bin/bash is used to run the bash shell once CentOS is up and running.
+=================================================================================
+To see the list of installed Docker images on the system - docker images
+output : 
+TAG − This is used to logically tag images.
+Image ID − This is used to uniquely identify the image.
+Created − The number of days since the image was created.
+Virtual Size − The size of the image.
+
+Downloading Docker Images - docker run image 
+image - name of the image which is used to run the container.
+ex : sudo docker run centos
+
+Removing Docker Images - Docker images on the system can be removed via the docker rmi command
+--> docker rmi ImageID
+docker images id - command is used to return only the Image ID’s of the images.
+--> docker images -q
+docker inspect - details of an image or container.
+--> docker inspect Repository 
+
+=================================================================================
+								Containers
+=================================================================================
+Containers are instances of Docker images that can be run using the Docker run command. The basic purpose of Docker is to run containers.
+
+Running a Container - Docker RUN Command
+ex : sudo docker run –it centos /bin/bash 
+Then hit Crtl+p and you will return to your OS shell.
+You will then be running in the instance of the CentOS system on the Ubuntu server.
+
+listing container : list all of the containers on the machine via the docker ps command
+command : 
+docker ps --> currently running containers
+docker ps -a --> list all of the containers on the system
+docker history ImageID  --> output will show all the commands run against that image
+docker top ContainerID  --> output will show the top-level processes within a container.
+docker stop ContainerID  --> command will stop the Docker container
+docker rm ContainerID --> to delete a container
+docker stats ContainerID -->  statistics of a running container (CPU and memory utilization)
+docker attach ContainerID -->  command is used to attach to a running container
+docker pause ContainerID --> pause the processes in a running container
+docker unpause ContainerID --> unpause the processes in a running container
+docker kill ContainerID --> kill the processes in a running container
+
+********Docker - Container and Hosts (linux or windows works same ways and same commands)
+
+Docker – Container Lifecycle
+Created --> Running --> Pause/Unpause --> Running --> stop/restart --> Running --> killed
+
+=================================================================================
+								Docker - Architecture
+=================================================================================
+
+standard and traditional architecture of virtualization.
+------------------------------------
+App			App			App		   |		server is the physical server that is used to host multiple virtual machines
+------------------------------------		Host OS is the base machine such as Linux or Windows.
+Guest OS   Guest OS     Guest OS   |		Hypervisor is either VMWare or Windows Hyper V that is used to host virtual machines.
+------------------------------------		install multiple operating systems as virtual machines on top of the existing hypervisor as Guest OS
+			Hypervisor			   |		then host your applications on top of each Guest OS
+------------------------------------
+			Host OS			   	   |
+------------------------------------
+			Server			       |
+------------------------------------
+
+
+new generation of virtualization that is enabled via Dockers
+------------------------------------
+App			App			App		   |
+------------------------------------		Server and host layer remains the same.
+		Docker Engine			   |		Docker engine - Used to run the operating system which earlier used to be virtual machines as Docker containers.
+------------------------------------		All of the Apps now run as Docker containers.
+			Host OS			   	   |		advantage in this architecture is that you don’t need to have extra hardware for Guest OS.
+------------------------------------
+			Server			       |
+------------------------------------
+
+
+=================================================================================
+								Docker - Configuring
+=================================================================================
+Commands : 
+service docker stop  --> used to stop the Docker daemon process
+service docker start --> used to start the Docker daemon process.
+
+=================================================================================
+								Docker - Containers and Shells
+=================================================================================
+Ctrl+P+Q command to exit out of the container. --> It ensures that the container still exists even after we exit from the container.
+--> easier way to attach to containers and exit them cleanly without the need of destroying them. One way of achieving this is by using the nsenter command
+--> To run the nsenter command, you need to first install the nsenter image --> docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+--> To use the nsenter command, we need to get the Process ID of the container.
+		sudo docker ps --> To get the containerID
+		sudo docker inspect containerID | grep Pid
+		now that we have process id, nsenter command can be used.
+
+nsenter --> This method allows one to attach to a container without exiting the container.
+Syntax -> 
+nsenter –m –u –n –p –i –t containerID command
+-u is used to mention the Uts namespace
+-m is used to mention the mount namespace
+-n is used to mention the network namespace
+-p is used to mention the process namespace
+-i s to make the container run in interactive mode.
+-t is used to connect the I/O streams of the container to the host OS.
+containerID − This is the ID of the container.
+Command − This is the command to run within the container.
+
+Ex : sudo nsenter –m –u –n –p –i –t 2978 /bin/bash
+
+The prompt changes to the bash shell directly when we issue the nsenter command.
+We then issue the exit command.
+
+=================================================================================
+								Docker - File
+=================================================================================
+Docker Files - A Docker File is a simple text file with instructions on how to build your images.
+creating a Dockerfile : 
+1. Create a file called Docker File and edit it using vim. Please note that the name of the file has to be "Dockerfile" with "D" as capital.
+2. Build your Docker File using the following instructions
+	#This is a sample Image 						| Comment
+	FROM ubuntu 									| Starts with FROM keyword. It tells docker, from which base image you want to base your image from.
+	MAINTAINER demousr@gmail.com 					| who is going to maintain the image.
+													|
+	RUN apt-get update 								| The RUN command is used to run instructions against the image.
+	RUN apt-get install –y nginx 					|
+	CMD [“echo”,”Image created”] 					| The last command is used to display a message to the user.
+3. Save the file. (no extension)
+
+=================================================================================
+								Docker - Building Files
+=================================================================================
+Build the Docker File - 
+Syntax : docker build  -t ImageName:TagName dir
+Options
+	-t − is to mention a tag to the image
+	ImageName − This is the name you want to give to your image.
+	TagName − This is the tag you want to give to your image.
+	Dir − The directory where the Docker File is present.
+	
+ex : sudo docker build –t myimage:0.1. 
+
+myimage is the name we are giving to the Image and 0.1 is the tag number we are giving to our image.
+the Docker File is in the present working directory, we used "." at the end of the command to signify the present working directory.
+output : 
+Ubuntu Image will be downloaded from Docker Hub, because there is no image available locally on the machine.
+You will then see the successfully built message and the ID of the new Image.
+
+=================================================================================
+								Docker - Public Repositories
+=================================================================================
+
+Public repositories can be used to host Docker images which can be used by everyone else.
+Centos, Ubuntu, and Jenkins are all publicly available for all.
+
+upload an image to public repository : 
+1. Go to https://hub.docker.com/ and log in with your credentials.
+2. Create Repository" on the above screen and create a repository with the name demorep. Make sure that the visibility of the repository is public.
+3. Once repository is created, copy the pull command.
+ ex : docker pull demousr/demorep
+4. Now go back to the Docker Host. Here we need to tag our myimage to the new repository created in Docker Hub. We can do this via the Docker tag command.
+ syntax : docker tag imageID Repositoryname 
+ ex : sudo docker tag ab0c1d3744dd demousr/demorep:1.0
+5. Issue the Docker login command to login into the Docker Hub repository from the command prompt. The Docker login command will prompt you for the username and password to the Docker Hub repository.
+6. Once the image has been tagged, it’s now time to push the image to the Docker Hub repository. We can do this via the Docker push command
+ syntax : docker push Repositoryname 
+ ex : sudo docker push demousr/demorep:1.0 
+
+in dockerHUB, we will find our repository tagged.
+Now, if we want to pull our pushed repository -- > docker pull demousr/demorep:1.0
+
+=================================================================================
+								Docker - Storage
+=================================================================================
+Technology			Storage Driver
+---------------------------------------
+OverlayFS			overlay or overlay2
+AUFS				aufs
+Btrfs				brtfs
+Device Manager		devicemanager
+VFS					vfs
+ZFS					zfs
+
+production-ready applications - AUFS
+testing applications in the lab - Devicemapper. Ovelay, ZFS
+maintain multiple build pools - Btrfs
+
+sudo docker info 
+command will provide all relative information on the Docker component installed on the Docker Host
+
+=================================================================================
+								Data Volumes
+=================================================================================
+separate volume that can shared across containers. These are known as data volumes.
+
+features of data volume are −
+	They are initialized when the container is created.
+	They can be shared and also reused amongst many containers.
+	Any changes to the volume itself can be made directly.
+	They exist even after the container is deleted.
+	
+suppose you wanted to map the volume in the container to a local volume, then you need to specify the –v option when launching the container.
+sudo docker run –d –v /home/demo:/var/jenkins_home –p 8080:8080 –p 50000:50000 jenkins 
+
+The –v option is used to map the volume in the container which is /var/jenkins_home to a location on our Docker Host which is /home/demo.
+
+Changing the Storage Driver for a Container - This can be done by using the –volume-driver parameter when using the docker run command
+sudo docker run –d --volume-driver=flocker –v /home/demo:/var/jenkins_home –p 8080:8080 –p 50000:50000 jenkins
+
+Creating a Volume
+Syntax : docker volume create –-name=volumename –-opt options
+
+name − This is the name of the volume which needs to be created.
+opt − These are options you can provide while creating the volume.
+
+ex : sudo docker volume create –-name = demo –opt o = size = 100m 
+
+Listing all the Volumes - sudo docker volume ls
+
+======================================================================================
+
+Docker Create							docker run = docker create + docker start
+
+the docker create command creates a writeable container layer over the specified image and prepares it for running the specified command. 
+This is useful when you want to set up a container configuration ahead of time so that it is ready to start when you need it.
