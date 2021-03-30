@@ -1,0 +1,31 @@
+Good morning all,I am Richa Yadav, 
+I have overall IT experience is 4.2 years.
+currently working at LG Soft India in Mobile Product Solutions as a DevOps Engineer.
+Our main aim is to prepare a stable software/binary for LG mobile.
+
+So for achieving our task we use Git version control and source management system along with gerrit review system.
+the CI/CD tool used by us is Jenkins, We are using containerization tool docker and configuration too ansible as well.
+Apart from that we use shell scripting as well.
+
+Let me explain you in brief how we acheive the same.
+
+Our process starts by getting new model request.
+We have master branch by following the branching strategy we branch out.
+
+And as you know we have mutliple functionalities in mobile software, so the respective team will commit their changes in branch.
+For delivering the changes/commit, we use git version control system along with gerrit review system.
+Each commit msg have specific format and is reviewed by team leader before merging in branch.
+Once we are ready with all the changes branch, we proceed with the build.
+
+we uses Jenkins CI/CD tool for building our software.
+In Jenkins, a new job is created for that specific model and is configured with necessary details and build commads, post build actions.
+After building, we finally deploy our software to a Network Attached Storage.
+
+Once our software is prepared we do Flash it in mobiles and try to verify changes done by us.
+
+In scenarios handsets are not availabe that time docker containerization tool came into picture.
+dockerfiles were written with the all the dependancies, configuration and software details. and the unavialabitily of handset was overcome by accessing the emulator by running a docker conatiner.
+Android Emulator simulates Android devices on your computer.
+We have been using Ansible as well for configuring the build servers, as each model's build requirement varies. 
+
+That is all about my current project.
